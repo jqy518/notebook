@@ -10,6 +10,9 @@
     * [归并排序](chapter-1/paixu.md#归并排序)
     * [快速排序](chapter-1/paixu.md#快速排序)
 
+* [数据结构](chapter-1/datatype.md)
+    * [堆](chapter-1/datatype.md#堆)
+
 ### 设计模式
 
 ### nodejs笔记
