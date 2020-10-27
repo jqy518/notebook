@@ -285,6 +285,88 @@ console.log(myTree)
 ####  堆的实现
 
 ```javascript
+/// <reference path="../dataClass.ts" />
+//泛型T需要有一个返回boolean值的compareTo方法
+class Heap<T extends DataClass.Compare> {
+    private items:Array<T>
+    private N:number = 0  //堆元素数量
 
+    constructor() {
+
+    }
+
+    //判断堆中索引i处的元素是否小于索引j处的元素
+    private less(i:number,j:number):boolean {
+        let c = this.items[i].compareTo(this.items[j])
+        if(c<=0) {
+            return true;
+        }else {
+            return false
+        }
+    }
+    
+    //交换堆中i索引和j索引处值
+    private exch(i:number,j:number):void {
+        let temp:T = this.items[i]
+        this.items[i] = this.items[j]
+        this.items[j] = temp
+    }
+
+    //插入一个元素
+    public  insert (t:T):void {
+        this.items[++this.N] = t;
+        this.swim(this.N)
+    }
+
+    //使用上浮算法，使索引k处的元素能在堆中处于一个正确的位置
+    private swim(k:number) {
+        //通过循环不断的比较当前结点的值和其父结点的值，如果发现父结点的值 比当前结点的值小，则交换位置。
+        while(k>1){ //因为从1开始插入值
+            let pk = parseInt(k/2+'');
+            if(this.less(pk,k)){
+                this.exch(pk,k)
+            }
+            k = pk;
+        }
+    }
+
+    //删除堆中最大的元素，并返回这个最大元素 ,最大元素就是根结点索引1处的元素，要删除这个元素采用步骤：
+    //1,交换1与N(未位)处的元素，再删除并返回N处的元素，下沉1处的元素使堆有序
+    public  delMax():T {
+        //交换
+        this.exch(1,this.N)
+        //删除N处元素
+        let max = this.items.pop()
+        this.N--;
+        //下沉
+        this.sink(1)
+        //返回max
+        return max
+    }
+
+    //使用下沉算法，使索引k处的元素能在堆中处于
+    private sink(k:number) {
+        //比较左子节点（2k）与右子节点(2k+1)的大小，取较大的一个与k处元素比较，如果k处元素小则交换（下沉）
+        while(2*k < this.N) {
+            let max:number
+            if(2*k+1 <=this.N){ //存在右子结点
+                if(this.less(2*k,2*k+1)){ 
+                    max = 2*k + 1;
+                }else {
+                    max = 2*k;
+                }
+            }else {
+                max = 2*k;
+            }
+            if(!this.less(k,max)) {
+                break
+            }else {
+                this.exch(k,max)
+                k = max;
+            }
+        }
+    }
+
+}
 ```
 
