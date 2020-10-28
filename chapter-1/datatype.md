@@ -368,5 +368,94 @@ class Heap<T extends DataClass.Compare> {
     }
 
 }
+
+
+//测试
+class Student implements DataClass.Compare {
+    public name:string
+    public age:number
+    constructor(name:string,age:number) {
+        this.name = name;
+        this.age = age
+    }
+    public compareTo(x:Student) {
+        if(this.age > x.age) {
+            return 1;
+        }else if(this.age === x.age) {
+            return 0;
+        }else {
+            return -1;
+        }
+    }
+}
+let heaptest = new Heap<Student>();
+heaptest.insert(new Student('A',12))
+heaptest.insert(new Student('B',23))
+heaptest.insert(new Student('C',35))
+heaptest.insert(new Student('D',1))
+heaptest.insert(new Student('E',13))
+heaptest.insert(new Student('F',16))
+heaptest.insert(new Student('G',10))
+
+let max:Student;
+while((max = heaptest.delMax())!=null) {
+    console.log(max.name)
+}
+```
+
+### 利用堆对数组进行排序
+
+循环堆的 `dexMax`方法可以得到的一个倒序数组。如果我们要从小到大进行排序，可以利用堆进行如下实现：
+
+```javascript
+class HeapSort<T extends DataClass.Compare> {
+    private heap:Array<T> = []
+    private less(a:number,b:number) {
+        return this.heap[a].compareTo(this.heap[b]) < 0;
+    }
+
+    private exch(i:number,j:number) {
+        let tmp = this.heap[i]
+        this.heap[i] = this.heap[j]
+        this.heap[j] = tmp
+    }    
+
+    private createHeap(source:Array<T>):void {
+        //拷贝源数组创建一个无序的堆
+        this.heap = [null,...source]
+        //对堆中元素进行下沉调整使其有序（此处从长度的一半处开始，因为一半以下都是叶子节点不需要下沉调整）
+        for(let i = (this.heap.length/2); i>0;i--) {
+            //对i处元素进行下沉调整，范围是到整个堆末端。
+            this.sink(i,this.heap.length -1)
+        }
+    }
+
+    private sink(target:number,range:number):void {
+        while(2*target <= range) { //有左子节点
+
+            //找出最大值
+            let max:number
+            if(2*target+1 <=range) { //有左子节点
+                if(this.less(2*target,2*target+1)) {
+                    max = 2*target + 1;
+                }else {
+                    max = 2*target
+                }
+            }else {
+                max = 2 * target
+            }
+
+            //比较当前target处的值与max处的值，
+            if(!this.less(target,max)) { 
+                break //结束循环。
+            }
+
+            //交换并继续往下走
+            this.exch(target,max)
+            target = max;
+
+        }
+    }
+}
 ```
 
