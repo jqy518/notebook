@@ -408,6 +408,8 @@ while((max = heaptest.delMax())!=null) {
 循环堆的 `dexMax`方法可以得到的一个倒序数组。如果我们要从小到大进行排序，可以利用堆进行如下实现：
 
 ```javascript
+//利用堆进行排序
+
 class HeapSort<T extends DataClass.Compare> {
     private heap:Array<T> = []
     private less(a:number,b:number) {
@@ -420,11 +422,28 @@ class HeapSort<T extends DataClass.Compare> {
         this.heap[j] = tmp
     }    
 
+    public sort(arr:Array<T>):Array<T>{
+        //创建堆
+        this.createHeap(arr)
+        //对堆进行排序，我们知道堆中最大值是索引1处的元素，则我们：
+        //1,交换索引1处与未尾元素；
+        //2,1处元素进行下沉操作，（注意下沉的范围不包括未尾元素）
+        //下沉后堆中最大值又处在1处，循环步骤1，最后能得到一个有序的堆。 
+        let max = this.heap.length -1;
+        while(max > 1) {
+            //交换
+            this.exch(max,1);
+            //下沉
+            this.sink(1,--max)
+        }
+        return this.heap.slice(1)
+    }
+
     private createHeap(source:Array<T>):void {
         //拷贝源数组创建一个无序的堆
         this.heap = [null,...source]
         //对堆中元素进行下沉调整使其有序（此处从长度的一半处开始，因为一半以下都是叶子节点不需要下沉调整）
-        for(let i = (this.heap.length/2); i>0;i--) {
+        for(let i = parseInt((this.heap.length/2)+''); i>0;i--) {
             //对i处元素进行下沉调整，范围是到整个堆末端。
             this.sink(i,this.heap.length -1)
         }
@@ -457,5 +476,17 @@ class HeapSort<T extends DataClass.Compare> {
         }
     }
 }
+
+let sortArr = [
+    new Student('A',12),
+    new Student('C',15),
+    new Student('D',11),
+    new Student('F',19),
+    new Student('Q',9),
+    new Student('Z',12)
+]
+
+let heapSort = new HeapSort()
+console.log(heapSort.sort(sortArr))
 ```
 
