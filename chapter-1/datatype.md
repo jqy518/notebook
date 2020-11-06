@@ -1,10 +1,10 @@
 # 数据结构
 
-### 二叉树
+## 二叉树
 
 二叉树是度不超过2的树（每个节点最多有两个结点）
 
-##### 满二叉树与完全二叉树
+#### 满二叉树与完全二叉树
 
 一个二叉树，如果每一层的结点树都达到最大值，则称之为满二叉树；
 
@@ -130,8 +130,8 @@ class BinaryTree<K extends DataClass.Compare,V>{
 
             //找到右子树最小节点
             let min:TreeNode<K,V> = treeNode.right;
-            while(treeNode.left! == null) {
-                min = treeNode.left;
+            while(min.left! == null) {
+                min = min.left;
             }
             //删除右子树最小节点
             let minParent = treeNode.right;
@@ -257,6 +257,75 @@ console.log(myTree.get(key))
 myTree.delete(key)
 console.log(myTree)
 
+```
+
+### 折纸问题
+
+一张纸对折N次，问每条折痕的朝向，用up,down表示。
+
+```javascript
+class PageNode {
+    value:string
+    left:PageNode
+    right:PageNode
+    constructor(value:string,left:PageNode,right:PageNode) {
+        this.value = value;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+class PageFoldingTest {
+    root:PageNode
+    constructor(n:number) {
+        for(let i = 0; i<n; i++) {
+            if(i === 0) {
+                this.root = new PageNode('down',null,null);
+            }else {
+                let queue:Array<PageNode> = [];
+                queue.push(this.root);
+                while(queue.length > 0) {
+                    let item = queue.shift();
+                    if(item.left) {
+                        queue.push(item.left)
+                    }else {
+                        item.left = new PageNode('up',null,null)
+                    }
+                    if(item.right) {
+                        queue.push(item.right)
+                    }else {
+                        item.right = new PageNode('down',null,null)
+                    }
+                }
+            }
+        }
+    }
+    //中序遍历
+    private midErgodic():Array<string> {
+        let list:Array<string> = []
+        this._midErgodic(this.root,list)
+        return list;
+    }
+    private _midErgodic(x:PageNode,list:Array<string>):void {
+        if(!x) {
+            return;
+        }
+        if(x.left) {
+            this._midErgodic(x.left,list)
+        }
+        list.push(x.value)
+        if(x.right) {
+            this._midErgodic(x.right,list)
+        }
+    }
+    print() :void{
+        console.log(this.midErgodic())
+    }
+}
+
+//测试
+let pa = new PageFoldingTest(3)
+pa.print()
 ```
 
 
@@ -451,24 +520,17 @@ class HeapSort<T extends DataClass.Compare> {
 
     private sink(target:number,range:number):void {
         while(2*target <= range) { //有左子节点
-
             //找出最大值
-            let max:number
-            if(2*target+1 <=range) { //有左子节点
+            let max:number = 2* target;
+            if(2*target+1 <=range) { //有右子节点
                 if(this.less(2*target,2*target+1)) {
                     max = 2*target + 1;
-                }else {
-                    max = 2*target
                 }
-            }else {
-                max = 2 * target
             }
-
             //比较当前target处的值与max处的值，
             if(!this.less(target,max)) { 
                 break //结束循环。
             }
-
             //交换并继续往下走
             this.exch(target,max)
             target = max;
@@ -488,5 +550,135 @@ let sortArr = [
 
 let heapSort = new HeapSort()
 console.log(heapSort.sort(sortArr))
+```
+
+## 最大优先队列
+
+上面学的堆就算是一个最大优化队列，`delMax` 每次都是删除最大的值 ；
+
+## 最小优先队列
+
+最小优化队列则与最大优先队列相反，最小值放在第一位，实现如下：
+
+```javascript
+/// <reference path="../dataClass.ts" />
+
+class MinPriorityQueue <T extends DataClass.Compare> {
+  private queue:Array<T> = []
+  private N:number = 0
+  
+  //插入元素
+  public add (item:T) :void {
+       this.queue[++this.N] = item;
+       this.swim(this.N)
+  }
+
+  //删除最小
+  public delMin():T {
+      if(this.N > 0){
+         this.exch(1,this.N)
+         let min = this.queue.pop()
+          this.N--;
+          this.sink(1)
+          return min;
+      }else {
+          return null
+      }
+  }
+
+  //是否为空
+  public isEmpty():boolean {
+     return this.N=== 0 ? true :false;
+  }
+
+  //获取size
+  public getSize():number {
+      return this.N;
+  }
+  //上浮
+  public swim(k:number) {
+      //与其父元素k/2比较，如大则交换元素
+      let parentKey:number = parseInt(k/2+'')
+      while(parentKey >= 1) {
+          //比较的时候与最大优化队列相反，如果小则交换
+        if(this.less(k,parentKey)) {
+            this.exch(parentKey,k)
+            k = parentKey
+            parentKey =parseInt(k/2+'') ;
+        }else {
+            break
+        }
+      }
+  }
+
+  //下沉(下沉后能保证最大值在上面)
+  public sink (i:number) {
+    //当有左子节点
+     while(2*i <=this.N) {
+         //找出左右节点中最小的。先假设最小值为左节点
+         let min = 2*i;
+         //当有右节点，进行左右比较
+        if(2*i+1 <=this.N) {
+            if(this.less(2*i+1,min)) {
+                min = 2*i +1;
+            }
+        }
+        //比较当前值与最小子节点如果大则交换，否则跳出
+        if(this.less(min,i)) {
+            this.exch(min,i)
+            i = min;
+        }else {
+            break
+        }
+     }
+  }
+  //比较
+  private less(i:number,j:number):boolean {
+    if(this.queue[i].compareTo(this.queue[j]) >= 0) {
+        return false;
+    }else {
+        return true;
+    }
+  }
+
+  //交换
+  public exch(i:number,j:number) {
+     let temp:T = this.queue[i]
+     this.queue[i] = this.queue[j]
+    this.queue[j] = temp;
+  }
+}
+
+class Man implements DataClass.Compare {
+     private age:number;
+     name:string;
+     constructor(name:string,age:number) {
+         this.name = name;
+         this.age = age;
+     }
+     public compareTo(x:Man):number {
+        if(this.age > x.age) {
+            return 1;
+        }else if(this.age === x.age) {
+            return 0;
+        }else {
+            return -1;
+        }
+     }
+}
+
+//测试
+
+let minQueue = new MinPriorityQueue()
+minQueue.add(new Man('A',90))
+minQueue.add(new Man('B',20))
+minQueue.add(new Man('C',1))
+minQueue.add(new Man('D',30))
+minQueue.add(new Man('E',10))
+minQueue.add(new Man('F',60))
+
+while(minQueue.getSize() > 0) {
+    console.log(minQueue.delMin())
+}
 ```
 
