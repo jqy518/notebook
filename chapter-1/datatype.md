@@ -682,3 +682,101 @@ while(minQueue.getSize() > 0) {
 }
 ```
 
+## 索引优化队列
+
+
+
+```javascript
+/// <reference path="../dataClass.ts" />
+class IndexMinPriorityQueue <T extends DataClass.Compare> {
+     items:Array<T> = []; //用来存储元素的数组
+     pq:Array<number> = []; // 保存每个元素的items数组中的索引，pq数组需要堆有序
+     qp:Array<number> = [];//保存pq的逆序，pq的值作为索引，pq的索引做为值。
+     N:number = 0;
+
+
+
+     private less(i:number,j:number):boolean {
+        if(this.items[this.pq[i]].compareTo(this.items[this.pq[j]]) <0) {
+            return true;
+        }else {
+            return false;
+        }
+     }
+
+     private exch(i:number,j:number):void {
+         //交换pq数组
+        let temp = this.pq[i];
+        this.pq[i] = this.pq[j];
+        this.pq[j] = temp;
+        //更新qp;
+        this.qp[this.pq[i]] = i;
+        this.qp[this.pq[j]] = j;
+     }
+     //删除队列中最小的元素
+     public delMin():T {
+        //先交换
+        this.exch(1,this.N);
+        //删除pq中最小的
+        let minIndex = this.pq.pop();
+        //更新qp中对应的元素
+        this.qp[this.pq[this.N]] = -1;
+        //更新item中对应的元素
+        let min:T  = this.items[minIndex]
+        this.items[minIndex] = null;
+        //N--
+        this.N--;
+        //下沉操作
+        this.sink(1)
+        return min;
+     }
+
+     //插入
+     public insert(t:T):void {
+        this.items.push(t)
+        this.N++;
+        this.pq[this.N] = this.N
+        this.qp[this.N] = this.N
+        //上浮
+        this.swim(this.N)
+     }
+
+     //上浮
+     private swim(i:number) {
+
+     }
+    //下沉
+     public sink(i:number):void {
+        while(2*i <=this.N) {
+            if((2*i+1)<=this.N) {
+
+            }
+        }
+     }
+     //获取队列中元素的个数
+     public size():number {
+         return this.N;
+     }
+     //判断队列是否为空
+     public isEmpty():boolean {
+         return this.N === 0;
+     }
+     //修改元素
+     public changeItem(i:number,t:T) {
+
+     }
+     //最小元素关联的索引
+     public minIndex():number {
+         return this.pq[1];
+     }
+     //删除元素
+     public delete(i:number):T {
+         return null;
+     }
+ }
+```
+
+
+
+
+
