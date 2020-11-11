@@ -694,7 +694,13 @@ class IndexMinPriorityQueue <T extends DataClass.Compare> {
      qp:Array<number> = [];//保存pq的逆序，pq的值作为索引，pq的索引做为值。
      N:number = 0;
 
-
+    constructor(src:Array<T>) {
+        if(src) {
+            for(let i = 0; i<src.length; i++) {
+                this.insert(i+1,src[i])
+            }
+        }
+    }
 
      private less(i:number,j:number):boolean {
         if(this.items[this.pq[i]].compareTo(this.items[this.pq[j]]) <0) {
@@ -720,7 +726,7 @@ class IndexMinPriorityQueue <T extends DataClass.Compare> {
         //删除pq中最小的
         let minIndex = this.pq.pop();
         //更新qp中对应的元素
-        this.qp[this.pq[this.N]] = -1;
+        this.qp[minIndex] = -1;
         //更新item中对应的元素
         let min:T  = this.items[minIndex]
         this.items[minIndex] = null;
@@ -732,24 +738,50 @@ class IndexMinPriorityQueue <T extends DataClass.Compare> {
      }
 
      //插入
-     public insert(t:T):void {
-        this.items.push(t)
-        this.N++;
-        this.pq[this.N] = this.N
-        this.qp[this.N] = this.N
-        //上浮
-        this.swim(this.N)
+     public insert(i:number,t:T):void {
+         if(i<1 || this.contains(i)) {
+             throw new Error('元素存在')
+         }else {
+            //把元素插入到items对应的i位置
+             this.items[i] = t;
+             //N++
+             this.N++;
+            //把i存储到pq
+             this.pq[this.N] = i;
+             //通过qp来记录pq中的i
+             this.qp[i] = this.N
+             //上浮
+             this.swim(this.N)
+         }
      }
 
      //上浮
      private swim(i:number) {
+        while(parseInt(i/2+'') >=1) {
+            let min = parseInt(i/2 + '')
+            if(this.less(i,min)) {
+                this.exch(i,min)
+                i = min;
+            }else {
+                break
+            }
+        }
 
      }
     //下沉
      public sink(i:number):void {
         while(2*i <=this.N) {
+            let min = 2*i;
             if((2*i+1)<=this.N) {
-
+                if(this.less(2*i+1,min)) {
+                    min = 2*i + 1;
+                }
+            }
+            if(this.less(min,i)) {
+                this.exch(i,min)
+                i = min;
+            }else {
+                break;
             }
         }
      }
@@ -761,9 +793,18 @@ class IndexMinPriorityQueue <T extends DataClass.Compare> {
      public isEmpty():boolean {
          return this.N === 0;
      }
+     //是否存在元素
+     public  contains(k:number):boolean {
+        return this.qp[k] && this.qp[k] != -1;
+     }
      //修改元素
      public changeItem(i:number,t:T) {
-
+        if(this.contains(i)) {
+            this.items[i] = t;
+            let j = this.qp[i]
+            this.swim(j)
+            this.sink(j);
+        }
      }
      //最小元素关联的索引
      public minIndex():number {
@@ -774,6 +815,31 @@ class IndexMinPriorityQueue <T extends DataClass.Compare> {
          return null;
      }
  }
+
+ //测试
+
+let arr:Array<DataClass.Man> = [];
+arr.push(new DataClass.Man('A',12))
+arr.push(new DataClass.Man('B',10))
+arr.push(new DataClass.Man('D',13))
+arr.push(new DataClass.Man('E',11))
+ let indexQueue = new IndexMinPriorityQueue(arr);
+ console.log(indexQueue)
+ console.log(indexQueue.delMin())
+ console.log(indexQueue.delMin())
+ console.log(indexQueue.delMin())
+ console.log(indexQueue.delMin())
+ indexQueue.insert(1,new DataClass.Man('A',12))
+ indexQueue.insert(3,new DataClass.Man('B',10))
+ indexQueue.insert(2,new DataClass.Man('D',13))
+ indexQueue.insert(4,new DataClass.Man('E',11))
+
+ indexQueue.changeItem(3,new DataClass.Man('HAHA',30))
+
+ console.log(indexQueue.delMin())
+ console.log(indexQueue.delMin())
+ console.log(indexQueue.delMin())
+ console.log(indexQueue.delMin())
 ```
 
 
