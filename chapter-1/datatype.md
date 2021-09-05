@@ -682,7 +682,19 @@ while(minQueue.getSize() > 0) {
 }
 ```
 
-## 索引优化队列
+## 索引优先队列
+
+最大和最小优先队列可快速的访问到队列中的最大元素和最小元素，但有一个缺点，就是没办法通过索引访问已经存在于优先队列中的对象，并更新它们。为了实现这个目的，在优先队列的基础上，我们有了索引优先队列。
+
+索引优先队列中有三个关键成员变更：
+
+`items` ：用来存储元素的数组
+
+`pq` ：保存每个元素的items数组中的索引，pq数组需要`堆有序`
+
+`qp`： 保存pq的逆序，即pq的值作为索引，pq的索引做为值。
+
+这样我们可以通过qp快速找到元素索引在堆pq中的索引，对元素进行定位查找或修改。
 
 
 
@@ -740,7 +752,7 @@ class IndexMinPriorityQueue <T extends DataClass.Compare> {
      //插入
      public insert(i:number,t:T):void {
          if(i<1 || this.contains(i)) {
-             throw new Error('元素存在')
+             throw new Error('索引不能小于1或元素存在')
          }else {
             //把元素插入到items对应的i位置
              this.items[i] = t;
@@ -802,7 +814,9 @@ class IndexMinPriorityQueue <T extends DataClass.Compare> {
         if(this.contains(i)) {
             this.items[i] = t;
             let j = this.qp[i]
+            //先上浮
             this.swim(j)
+            //再下沉
             this.sink(j);
         }
      }
@@ -812,7 +826,18 @@ class IndexMinPriorityQueue <T extends DataClass.Compare> {
      }
      //删除元素
      public delete(i:number):T {
-         return null;
+         //先交换
+         this.exch(i,this.N)
+         //删除pq中N处的元素
+         let delIndex = this.pq.pop();
+         //N--
+         this.N--;
+         //同步清除qp中的数据
+         this.qp[delIndex] = -1;
+         //同步清除items中的位置
+         let delItem = this.items[delIndex]
+         this.items[delIndex] = null;
+         return delItem;
      }
  }
 

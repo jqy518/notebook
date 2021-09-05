@@ -12,6 +12,7 @@
 
 * [数据结构](chapter-1/datatype.md)
     * [堆](chapter-1/datatype.md#堆)
+    * [堆](chapter-1/datatype.md#堆)
 
 ### 设计模式
 
