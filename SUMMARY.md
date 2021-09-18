@@ -37,6 +37,6 @@
 - [Linux\_目录结构](chapter-2/Linux_目录结构.md)
 - [Linux_vi 和 vim 使用](chapter-2/Linux_vi和vim使用.md)
 
-### 杂七杂八
+### 杂七杂八 1
 
 - [手写 Promise 和周边方法](chapter-4/手写Promise和周边方法.md)
