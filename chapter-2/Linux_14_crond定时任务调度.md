@@ -7,7 +7,7 @@
     - 【-e】 编辑crontab定时任务。
     - 【-l】 查询crontab任务。
     - 【-r】 删除当前用户所有的crontab任务。
-
+    - 【service crond restart】 重启任务调试
   - 快速入门
     - 执行 【crontab -e】 命令。
     - 输入 【*/1 * * * * ls -l /etc/ > /tmp/to.txt】 意思说每小时的每分钟执行`ls -l /etc/ > /tmp/to.txt`命令。
@@ -18,3 +18,9 @@
        ![图片](../imgs/liunx/2.jpg)
        特定时间执行案例
        ![图片](../imgs/liunx/3.jpg)
+  
+  - 应用案例
+    - 每隔1分钟将当前日期和日历都追加到 /home/mycal文件中。
+      - 1.  写个shell文件，`vim /home/my.sh` 写入内容 `date >> /home/mycal` 和 `cal >> /home/mycal`
+      - 2. 给my.sh增加执行权限：`chmod u+x /home/my.sh`
+      - 3. crontab -e 增加 `*/1 * * * * /home/my.sh`
