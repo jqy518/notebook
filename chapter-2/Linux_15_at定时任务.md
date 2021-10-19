@@ -8,7 +8,7 @@
 ## at命令格式
 
 - 【at 选项 时间】
-- 按【ctrl + D 】结束at命令的输入
+- 按【ctrl + D 】两次，结束at命令的输入
 
 ![图片](../imgs/liunx/4.jpg)
 - 【时间】说明：
@@ -17,4 +17,13 @@
   - 采用12小时计时制，即在时间后面加上AM，PM来说明上午还是下午，例如:`12pm`
   - 指定命令执行的具体日期，指定格式为month day(月 日)，或mm/dd/yy(月/日/年)或`dd.mm.yy`,指定日期必须跟在指定时间后面。例如：04:00 2021-03-1
   - 使用相对计时法，指定格式为 `now + count time-units`; `time-units`为时间单位，这里能够使用的有:`minutes`,`hours`,`days`,`weeks`.例如: `now + 5 days`
-  - 直接使用`today(今天)`，`tomrrow`来指定完成命令的时间。
+  - 直接使用`today(今天)`，`tomorrow`来指定完成命令的时间。
+
+- 【atq】命令来查看系统中有没有执行的工作任务。
+- 【atrm 5】删除at任务(这里是序号为5的任务)
+
+## 案例
+
+> 【at 5pm + 2 days】两天后的下午5点执行。
+> 【at 5pm + tomorrow】明天的下午5点执行。
+> 【at now + 2 minutes】两分钟以后
