@@ -43,7 +43,7 @@
 ### 修改文件所在组
  - 【`chgrp`】修改文件或目录所有组
  - 【`-R`】如果是目录 则递归修改其下的子文件及目录。
- - 【chown root ./hello.txt】 修改文件的所有组为root
+ - 【chown root ./hello.txt】 修改文件的所有者为root
 
 ### 文件夹权限讲解
 
