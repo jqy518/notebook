@@ -8,3 +8,33 @@
         ```bash
         ls -l /etc/init.d
         ```  
+- 【setup】 centos 7 可以通此命令查看所有进程。
+
+- 服务的运行级别（runlevel）
+
+   - `运行级别0`: 系统停机状态，系统默认运行级别不能设为0，否则不能正常启动。
+   - `运行级别1`: 单用户工作状态，root权限，用于系统维护，禁止远程登陆。
+   - `运行级别2`: 多用户状态（没有NFS），不支持网络。
+   - `运行级别3`: 完全的多用户状态（没有NFS），登陆后进入控制台命令行模式。
+   - `运行级别4`: 系统未使用，保留。
+   - `运行级别5`: X11控制 台，登陆后进入图形GUI模式。
+   - `运行级别6`: 系统正常关闭并重启，软件主体 运行级别不能设置6，否则不能正常启动。
+
+   > Linux系统有以上7种运行级别：`常用的是级别3和5`
+
+
+    ![图片](../imgs/liunx/10.jpg)
+
+- 运行级别设置：
+  - `/etc/initab` 中进行设置。
+
+  -【systemctl get-default】获取当前运行级别
+
+- 【chkconfig】指令，用于给服务在各个系统运行级别中设置`自启动/关闭`
+  - 【chkconfig --list[ | grep xxxx]】 查看服务。
+  - 【chkconfig 服务名 --list】
+  - 【chkconfig --level 5 服务名 on/off】
+
+- 【systemctl】 管理指令
+   - 基本语法：`systemctl [start|stop|restart|status] 服务名`
+   - systemctl 指令管理的服务在`/usr/lib/systemd/system` 查看。
