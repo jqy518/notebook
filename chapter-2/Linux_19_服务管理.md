@@ -38,3 +38,16 @@
 - 【systemctl】 管理指令
    - 基本语法：`systemctl [start|stop|restart|status] 服务名`
    - systemctl 指令管理的服务在`/usr/lib/systemd/system` 查看。
+   - systemctl 设置服务的自启动状态
+     - 【systemctl list-unit-files [| grep 服务名]】 查看服务开机启动状态。
+     - 【systemctl enable 服务名】 设置开机启动 
+     - 【systemctl disable 服务名】 关闭服务开机启动 
+     - 【systemctl is-enabled 服务名】 查询某个服务是否是自启动的
+
+- 应用案例
+  - 查看当前防火墙状况，关闭防火墙和重启防火墙
+    ```bash
+    systemctl status firewalld.service
+    systemctl stop firewalld.service
+    systemctl start firewalld.service
+    ```
