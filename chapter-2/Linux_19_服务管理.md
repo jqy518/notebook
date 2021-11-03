@@ -51,3 +51,13 @@
     systemctl stop firewalld.service
     systemctl start firewalld.service
     ```
+    【netstat -anp | more】 可以查看开启监听的端口。可以在windows上【telnet】测试端口是否可以连接，会发现，当防火墙开的时候连接不通。
+
+  >ps 利用 `systemctl stop 服务名` 关闭只是临时的，开机之后又恢复之前的设置，如果希望服务自启动关闭，用`systemctl [enable|disable]`
+
+- 【firewall-cmd】 设置防火墙
+   - 【firewall-cmd --permanent --add-port=端口号/协议】 打开端口
+   - 【firewall-cmd --permanent --remove-port=端口号/协议】 关闭端口
+   - 【firewall-cmd --reload】 重新载入，才能生效。
+   - 【firewall-cmd --query-port=端口号/协议】 查询端口是否开放。
+    
