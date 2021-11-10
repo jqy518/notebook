@@ -20,7 +20,7 @@
    - 【-c】产生`.tar`打包文件
    - 【-v】显示详细信息
    - 【-f】指定压缩后的文件名
-   - 【-z】打包同时压缩
+   - 【-z】通过gzip指令处理备份文件
    - 【-x】解包.tar文件
    - 例子
      - 【tar -zcvf pc.tar.gz /home/pig.txt /home/cat.txt】将`pig.txt,cat.txt`两个文件压缩成 `pc.tar.gz`
