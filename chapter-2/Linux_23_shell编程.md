@@ -149,4 +149,50 @@
 
      ```
 
+  - while循环
+    - `while [条件] do ... done`
+     ```bash
+      #!/bin/bash
+      SUM=0
+      i=0
+      while [ $i -le $1 ]
+      do
+              SUM=$[$SUM+$i]
+              i=$[$i+1]
+      done
+      echo "SUM=$SUM"
+     ```
+  - read获取输入
+      - 【-p】提示语
+      - 【-t】规定输入时间
+    ```bash
+      #!/bin/bash
+      #读取一个数赋值给变量NUM
+      read -p "请输入数字：" NUM
+
+      echo "你刚才输入的数字是：$NUM"
+
+      read -t 10 -p "请在10秒内输入你的答案：" RESULT
+      echo "你的答案是:$RESULT"
+
+    ```
+
+  - 系统函数
+    - 【basename】 返回完整路径最后`/`的部分，常用于获取文件名
+      - 语法：`【basename [pathname] [suffix]】`如果有suffix则后缀也会删除
+        ```bash
+          basename /home/root/aa.txt #返回 aa.txt
+          basename /home/root/aa.txt .txt #返回 aa
+          #将结果赋值给变量
+          basename /home/root/aa.txt FILE_NAME
+          echo FILE_NAME
+        ```
+    - 【dirname】返回完整路径最后`/`的前面部分，与basename正好相反
+      ```bash
+        dirname /home/root/aa.txt #返回 /home/root
+        #将结果赋值给变量
+        dirname /home/root/aa.txt DIR_PATH
+          echo DIR_PATH
+      ```
+
 
