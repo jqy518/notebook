@@ -195,4 +195,30 @@
           echo DIR_PATH
       ```
 
+  - 备份数据库案例
+    ```bash
+    #!/bin/bash
+    #备份目录
+    BACKUP=/home/jqy/shellTest/backup
+    #当前时间
+    DATATIME=$(date +%Y-%m-%d_%H%M%S)
+    echo $DATATIME
+    #数据库地址
+    HOST=localhost
+    #数据库用户名
+    DB_USER=root
+    #数据库密码
+    DB_PASSWD=xxxxxxx
+    #备份的数据库名
+    DATABASE=webdata
+    #如果不存在就创建目录
+    [ ! -d "${BACKUP}/${DATATIME}" ] && mkdir -p "${BACKUP}/${DATATIME}"
+    mysqldump -u${DB_USER} -p${DB_PASSWD} -q -R --databases ${DATABASE} > ${BACKUP}/${DATATIME}/${DATATIME}.sql
+    #压缩文件
+    cd ${BACKUP}
+    tar -zcvf $DATATIME.tar.gz ./${DATATIME}/
+    rm -rf ./${DATATIME}
+
+    ```
+
 
