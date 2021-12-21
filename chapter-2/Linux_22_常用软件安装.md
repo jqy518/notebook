@@ -68,3 +68,21 @@
   mysql> set password for 'root'@'localhost'=password('12345678') #设置密码 
   mysql> flush privileges #刷新使其生效
  ```
+
+ - `mysql`忘记密码的处理方法：
+   - 修改 `/etc/my.cnf` 在最后加上如下一句话：
+     ```bash
+      #跳过权限表
+      skip-grant-tables
+     ```
+   - 重启`mysql`，`service mysqld restart`,再进行mysql，密码处直接回车就能进入mysql了.
+   - 修改数据库`mysql`下的`user`表，中的`authentication_string`,此字段保存的就是用户加密后的密码
+     ```bash
+      #修改
+      update user set authentication_string=password('123456') where User='root'
+      #刷新一下
+      flush privileges;
+     
+     ```
+   - 重启`mysql`，`service mysqld restart`
+
