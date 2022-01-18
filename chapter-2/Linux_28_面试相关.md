@@ -45,7 +45,7 @@
  - 方法：
    ```bash
    cat ./access.log | awk -F ' ' '{print $1}' | sort |uniq -c|sort -nr | head -2
-
    ```
+- 使用`tcpdump`监听本机，将来自ip 192.168.200.1 tcp 端口为22的数据，保存输出到tcpdump.log中。
 
 
