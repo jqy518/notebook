@@ -8,7 +8,7 @@
  说明：
    - `System V` 展示风格
    - `USER`:用户名称
-   - `PID`:用户名称
+   - `PID`:进程ID
    - `%CPU`:进程占用CPU的百分比
    - `%MEM`:进程占用物理内存的百分比
    - `VSZ`:进程占用的虚拟内存大小（单位：KB）
@@ -44,7 +44,7 @@
           重新启动
            ```bash
             /bin/systemctl start sshd.service
-          ```
+           ```
 
       - 终止多个gedit。
         
@@ -53,7 +53,7 @@
          killall gedit //杀死所有gedit相关进程
 
         ```
-       
+      
       - 强制杀掉一个终端。
 
         ```bash
