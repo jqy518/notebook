@@ -16,7 +16,22 @@ $ sudo service docker start
 # systemctl 命令的用法
 $ sudo systemctl start docker
 ```
-## image文件
+## 常用帮助命令
+
+```shell
+docker version
+docker info   #显示docker的系统信息
+```
+
+
+
+## 容器镜像命令
+
+```shell
+docker images
+```
+
+
 
 ```bash
 #查看所有image信息
