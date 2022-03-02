@@ -66,19 +66,108 @@ docker rmi c20987f18b13
 docker rmi -f $(docker images -aq)
 ```
 
+##### 新建容器并启动
+
+```bash
+# centos为例
+docker pull centos
+
+#docker run
+#命令格式 docker run [可选参数] images
+--name="myName" 容器名称，用来区分容器
+-d              后台方式运行
+-it             使用交互方式运行，进入容器内容
+-p              指定容器的端口 -p 8080:8080
+   -p 主机端口：容器端口 （常用）
+   -p 容器端口
+   -p ip:主机端口：容器端口
+   容器端口
+-P              随机指定端口   
+
+#示例，启动并进入容器
+docker run -it centos /bin/bash
+
+
+#进入之后想退出
+
+exit   #直接容器停止并退出
+
+ctrl+P+Q  #容器不停止退出 可能需要等几秒
+
+
+
+```
+
+
+
+##### 列表所有的运行的容器
+
+```bash
+# docker ps 命令
+docker ps
+            #不带参数列表当前正在运行的容器
+-a          #列表所有运行的和运行过的容器
+-n=?        #显示最近创建的几条容器
+-q          #只显示容器的编号
+```
+
+##### 删除容器
+
+```bash
+docker rm 容器id                 #删除指定容器，不能删除正在运行的容器，如果要强制删除运行中的 可以加 -f
+docker rm -f $(docker ps -aq)   #删除所有容器
+docker ps -a -q | xargs docker rm  #删除所有容器
+
+```
+
 
 
 #####  容器命令
 
 ```bash
-#查看所有image信息
-$ docker container ls --all
+#查看所有容器信息
+$ docker ps -aq
 
-$ docker container start 89aab435199b
-$ docker container stop 89aab435199b
-$ docker container rm 89aab435199b
+$ docker start 89aab435199b  #启动容器
+$ docker restart 89aab435199b  #启动容器
+$ docker stop 89aab435199b   #停止容器
+$ docker kill 89aab435199b  #强制停当前容器
 # 进入容器
 $ docker container exec -it 1eed68b405b0 /bin/bash
 ```
 
+
+
+## 其他常用命令或常见问题
+
+##### 后台启动容器问题
+
+```bash
+#想：后台进行cenos，运行如下命令
+docker run -d centos
+#问题：docker ps 发现centos 停止了,原因：docker容器使用后台运行，就必须要有一个前台进程，docker发现没有应用，就会自动停止
+```
+
+##### 日志
+
+```shell
+docker logs -ft --tail 10
+   -f         #跟踪日志输出，会监听日志输出
+   -t         #带上时间戳
+   --tail     #显示最后多少条日志
+   
+```
+
+##### 查看容器中进程信息
+
+```
+docker top 容器ID
+
+```
+
+##### 查看容器或镜像的详情元信息
+
+```bash
+docker inspect 容器ID/镜像ID
+```
 

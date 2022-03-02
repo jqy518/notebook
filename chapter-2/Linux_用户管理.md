@@ -34,13 +34,37 @@
  - 【useradd zhangsan -g 用户组 用户名】 更改登录目录。
 
 ### 删除组
- 
+
  - 【groupdel 组名】
 
 ### 修改用户组
 
  - 【usermod -g 用户组 用户名】 把用户的用户组修改为指定用户组
+
  - 【usermod -d /home/aa root】 把用户的用户组修改为指定用户组
+
+ - 【gpasswd】用于指定要管理的工作组
+
+   -  -a : 添加用户到组
+
+   -  -d : 从组删除用户
+
+   -  -A：指定管理员
+
+   -  -M：指定组成员和-A的用途差不多；
+
+   -  -r：删除密码；
+
+   -  -R：限制用户登入组，只有组中的成员才可以用newgrp加入该组。
+
+     ```bash
+     #将用户 userA添加到 groupB
+     gpasswd -a userA groupB
+     #切换用户组（当一个用户属于多个用户组时，切换当前工作组）
+     newgrp docker
+     ```
+
+     
 
 ## 用户和组相关文件
 

@@ -6,6 +6,8 @@
 
  - 直接修改配置文件来指定IP并可以连接到外网,通过编辑：
   > /etc/sysconfig/network-scripts/ifcfg-{网络名称}
+  >
+  > /etc/network/interfaces （ubuntu 的配置文件）
 
   ```bash
   BOOTPROTO=static //改成静态 ，原来值：`dhcp`为动态分配
