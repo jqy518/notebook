@@ -133,7 +133,7 @@ $ docker restart 89aab435199b  #启动容器
 $ docker stop 89aab435199b   #停止容器
 $ docker kill 89aab435199b  #强制停当前容器
 # 进入容器
-$ docker container exec -it 1eed68b405b0 /bin/bash
+$ docker exec -it 1eed68b405b0 /bin/bash
 ```
 
 
