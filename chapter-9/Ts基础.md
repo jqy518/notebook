@@ -27,3 +27,8 @@
 - Null 和 Undefined
 
 - Never
+
+### 接口 interface
+
+##### 表示
+
