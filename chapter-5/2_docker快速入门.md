@@ -86,7 +86,8 @@ docker pull centos
 
 #示例，启动并进入容器
 docker run -it centos /bin/bash
-
+#启动并进入容器结束后立刻删除容器
+docker run -it --rm centos /bin bash
 
 #进入之后想退出
 
@@ -134,7 +135,18 @@ $ docker stop 89aab435199b   #停止容器
 $ docker kill 89aab435199b  #强制停当前容器
 # 进入容器
 $ docker exec -it 1eed68b405b0 /bin/bash
+#进入一个正在运行的容器
+$ docker attach  89aab435199b (容器ID)
 ```
+
+##### 从容器内拷备文件
+
+```bash
+#拷备容器（31d39b8334fa）/home/java.txt 至 主机 /home目录
+$ sudo docker cp 31d39b8334fa:/home/java.txt /home
+```
+
+
 
 
 
@@ -145,13 +157,15 @@ $ docker exec -it 1eed68b405b0 /bin/bash
 ```bash
 #想：后台进行cenos，运行如下命令
 docker run -d centos
-#问题：docker ps 发现centos 停止了,原因：docker容器使用后台运行，就必须要有一个前台进程，docker发现没有应用，就会自动停止
+#问题：docker ps 发现centos 停止了,原因：centos容器使用后台运行，就必须要有一个前台进程，docker发现没有应用，就会自动停止
+#对于centos启动需要加-it
+docker run -it -d centos
 ```
 
 ##### 日志
 
 ```shell
-docker logs -ft --tail 10
+docker logs -ft --tail 10 容器ID
    -f         #跟踪日志输出，会监听日志输出
    -t         #带上时间戳
    --tail     #显示最后多少条日志
