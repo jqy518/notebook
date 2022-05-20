@@ -86,6 +86,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    node: true,
     // 全局 defineProps, defineEmits 开启
     'vue/setup-compiler-macros': true
   },
@@ -100,10 +101,28 @@ module.exports = {
   rules: {
     // 启用vue/script-setup-uses-vars 规则
     'vue/script-setup-uses-vars': 'error',
-     //有console警告
-    'no-console': 1，
-    'no-debugger': 'off'
+     //有console，debugger警告
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
   }
+}
+```
+
+> 注意 在vscode中修改了eslint配置，最好重启一下vscode
+
+添加：在根目录下添加`.prettierrc`配置如下 ：
+
+```js
+module.exports = {
+  printWidth: 90, // 换行字符串阈值
+  semi: false, //句末加分号
+  singleQuote: true, // 用单引号
+  trailingComma: 'none', // 最后一个对象元素加逗号
+  bracketSpacing: true, // 对象，数组加空格
+  arrowParens: 'avoid', // (x) => {} 是否要有小括号
+  endOfLine: 'auto', // 文件换行格式 LF/CRLF
+  requirePragma: false, // 是否要注释来决定是否格式化代码
+  proseWrap: 'preserve' // 是否要换行
 }
 ```
 

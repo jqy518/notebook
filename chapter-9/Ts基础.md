@@ -88,3 +88,20 @@ interface NotOkay {
 }
 ```
 
+### 类
+
+#### 公共，私有与受保护的修饰符
+
+```typescript
+class Animal {
+    //只能在Animal类中访问
+    private name:string
+    //能在Animal类及Animal的派生类中访问
+    protected age:number
+    //外部可以访问
+    public height:number
+}
+```
+
+#### readonly及参数属性
+
