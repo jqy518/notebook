@@ -7,7 +7,7 @@
    - 注意：在CentOS7.0后，很多服务不再使用`service`，而是`systemctl`,如果要查看还有哪些服务可以使用`service` 进行管理，可以在`/etc/init.d`里查看。
         ```bash
         ls -l /etc/init.d
-        ```  
+        ```
 - 【setup】 centos 7 可以通此命令查看所有进程。
 
 - 服务的运行级别（runlevel）
@@ -60,4 +60,16 @@
    - 【firewall-cmd --permanent --remove-port=端口号/协议】 关闭端口
    - 【firewall-cmd --reload】 重新载入，才能生效。
    - 【firewall-cmd --query-port=端口号/协议】 查询端口是否开放。
-    
+   
+- 【unbuntu】 防火墙设置
+
+   - 【**sudo ufw status**】 查看防火墙状态
+
+   - 【sudo ufw enable】开启防火墙
+   - 【sudo ufw disable】关闭防火墙
+   - 【sudo ufw default allow/deny】外来访问默认允许或拒绝
+   - 【sudo allow/deny 20/tcp】允许/拒绝 访问20端口
+   - 【sudo allow/deny servicename】ufw从/etc/services中找到对应service的端口，进行过滤。
+   - 【sudo allow proto tcp from 10.0.1.0/10 to 本机ip port 25】允许自10.0.1.0/10的tcp封包访问本机的25端口。
+   - 【ufw delete allow/deny 20】删除以前定义的“允许/拒绝访问20端口”的规则。
+
