@@ -89,5 +89,33 @@ CMD /bin/bash
 
 ```bash
 docker build -f ./dockerfile01 -t jekion/centos:1.0 .
+#如果遇到错误：error checking context: 'can't stat '/home/jekion/.cache/dconf''.
+#原因是没有dockerfile所在目录没有访问权限，需要另建一个目录把dockerfile拷贝过去，再执行
+
+docker images
+
+REPOSITORY      TAG       IMAGE ID       CREATED          SIZE
+jekion/centos   1.0       0dc2668ca67f   10 minutes ago   231MB
+#可以看到我们的镜像已经建立好了。
+
+docker run -it 0dc2668ca67f /bin/bash
+
+#启动进入容器 在volume01建一个文件1.txt 在容器外通过docker inspect 查看容器数据卷及数据卷容器外路径。
+#我们可以发现数据卷采用的是匿名挂载
+```
+
+#### 容器之间共享数据卷
+
+```bash
+#可以使用： --volumes-from 来共享数据卷
+#下面我们新建docker01,docker02
+docker run -it --name docker01 0dc2668ca67f
+#查看容器
+docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS         PORTS     NAMES
+110187ec1ca9   0dc2668ca67f   "/bin/sh -c /bin/bash"   6 minutes ago   Up 6 minutes             docker01
+
+#按CTRL+P+Q退出容器
+docker run -it --name docker02 --volumes-from 110187ec1ca9 0dc2668ca67f
 ```
 
