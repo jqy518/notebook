@@ -31,3 +31,15 @@ docker exec -it mytomcat /bin/bash
 
 ```
 
+##### mysql
+
+```bash
+#初始化容器
+docker run -itd --name mysql01 -p:3306:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql:5.7
+#进入容器
+docker exec -it mysql01 /bin/bash
+#进入后就可以通过mysql-client对mysql进行操作
+mysql -uroot -p123456
+
+```
+

@@ -119,3 +119,28 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS   
 docker run -it --name docker02 --volumes-from 110187ec1ca9 0dc2668ca67f
 ```
 
+#### dockerfile介绍
+
+1，dockerfile是用来 构建docker镜像的文件。
+
+2 ，运行`docker build -f ./dockerfile01 -t jekion/centos:1.0 .` 构建生成一个镜像
+
+3，再运行`docker run -d --name mycentos01 jekion/centos:1.0`生成容器
+
+4，`docker push`发布镜像
+
+#### dockerfile 指令介绍
+
+```bash
+FROM         #基础镜像，一切从这里开始构建
+MAINTAINER   #镜像是谁写的，姓名+邮箱
+RUN          #镜像构建的时候需要运行的命令
+ADD          #添加内容，比如tomcat等
+WORKDIR      #镜像的工作目录
+VOLUME       #挂载的目录
+EXPOST       #指定对外端口
+CMD          #指定这个容器启动的时候需要运行的命令,只有最后一个会生效，可被替代
+ENTRYPOINT   #指定这个容器启动的时候需要运行的命令，可以追加命令
+
+```
+

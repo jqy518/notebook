@@ -8,9 +8,10 @@
   echo "hello world!!!!"
   ```
 
-- 执行shell脚本有两种方式：
+- 执行本地shell脚本有两种方式：
   - 给`hello.sh`添加执行权限：`chmod u+x ./hello.sh` 然后就可以执行了。
-  - 或直接执行`sh ./hello.sh`
+  - 或直接执行`sh ./hello.sh
+  - 通过管理符 cat ./hello.sh | bash
 
 ## shell 变量
  - Linux Shell中的变量分为，系统变量和用户自定义变量。
@@ -53,7 +54,7 @@
   - `$$`:当前进程 的进程号（PID）
   - `$!`:后台运行的最后一个进程的进程号
   - `$?`:最后一次执行的命令的返回状态。如果这个变量的值为0，证明上一个命令正确执行;如果这个变量的值为非0（具体是哪个数，由命令自己来决定），则证明上一个命令执行不正确了。
-   
+  
 - 运算符
   - `$((运算表达式))` 或 `$[运算式]` 或者 `expr m + n `
   - 注意`expr`运行符间要有空格，如果希望将expr的结果赋给某个变量，使用"``"反引号包裹。expr中：乘号需要转义：`\*`。
@@ -95,6 +96,7 @@
 
 - 流程控制
   - `if...elif...fi`
+    
     ```bash
     #!/bin/bash
     if [ $1 -gt 60 ]
@@ -135,20 +137,20 @@
       for k in "$*"
       do
               echo "args=$k"
-      done
-
+    done
+  
       for j in "$@"
       do
               echo "j=$j"
-      done
-
+    done
+  
       for(( l=0; l<=10; l++))
       do
               echo "l=$l"
-      done
-
-     ```
-
+    done
+  
+   ```
+  
   - while循环
     - `while [条件] do ... done`
      ```bash
@@ -168,15 +170,15 @@
     ```bash
       #!/bin/bash
       #读取一个数赋值给变量NUM
-      read -p "请输入数字：" NUM
-
-      echo "你刚才输入的数字是：$NUM"
-
+    read -p "请输入数字：" NUM
+  
+    echo "你刚才输入的数字是：$NUM"
+  
       read -t 10 -p "请在10秒内输入你的答案：" RESULT
-      echo "你的答案是:$RESULT"
-
-    ```
-
+    echo "你的答案是:$RESULT"
+  
+  ```
+  
   - 系统函数
     - 【basename】 返回完整路径最后`/`的部分，常用于获取文件名
       - 语法：`【basename [pathname] [suffix]】`如果有suffix则后缀也会删除
@@ -193,8 +195,8 @@
         #将结果赋值给变量
         dirname /home/root/aa.txt DIR_PATH
           echo DIR_PATH
-      ```
-
+    ```
+  
   - 备份数据库案例
     ```bash
     #!/bin/bash
@@ -217,8 +219,8 @@
     #压缩文件
     cd ${BACKUP}
     tar -zcvf $DATATIME.tar.gz ./${DATATIME}/
-    rm -rf ./${DATATIME}
-
+  rm -rf ./${DATATIME}
+  
     ```
 
 
