@@ -141,6 +141,48 @@ VOLUME       #挂载的目录
 EXPOST       #指定对外端口
 CMD          #指定这个容器启动的时候需要运行的命令,只有最后一个会生效，可被替代
 ENTRYPOINT   #指定这个容器启动的时候需要运行的命令，可以追加命令
+ONBUILD      #当构建一个被继承DockerFile这个时候就会运行onbuild的指令，触发指令。
+COPY         #类似ADD，将我们文件拷贝到镜像中
+ENV          #构建的时候设置环境变量
 
+```
+
+#### 构建自己的centos dockerfile
+
+```bash
+FORM centos
+MAINTAINER jekiion<jqy441036596@163.com>
+ENV MYPATH /usr/local
+WORKDIR $MYPATH
+RUN yum -y install vim
+RUN yum -y install net-tools
+EXSPOSE 80
+CMD echo $MYPATH
+CMD echo "-----end------"
+CMD /bin/bash
+```
+
+我们可以通`docker history 镜像id`查看构建历史步骤。
+
+##### CMD 和ENTRYPORT 区别
+
+编写一个`dockerfile-cmd-test`
+
+```bash
+FROM centos
+CMD ["ls","-a"]
+```
+
+```bash
+#生成镜像
+docker build -f dockerfile-cmd-test -t cmdtest .
+#运行生成容器
+docker run 7579c0e81041
+#结果显示为 ls -a 的结果
+#如果我们想向后面追加一个 'l',
+docker run 7579c0e81041 -l
+#结果会报错，不能追加，面是用'-l'覆盖掉了，ls -a
+
+如果采用ENTRYPOINT则可以。
 ```
 
