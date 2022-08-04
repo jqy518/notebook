@@ -186,3 +186,67 @@ docker run 7579c0e81041 -l
 如果采用ENTRYPOINT则可以。
 ```
 
+#### 实战自定义一个tomcat  Dockerfile
+
+编写一个`Dockerfile`文件内容如下：
+
+```bash
+#文件Dockerfile
+FROM centos:7
+MAINTAINER jekion<jqy441036596@163.com>
+COPY readme.txt /usr/local/readme.txt
+
+ADD jdk-18_linux-aarch64_bin.tar.gz /usr/local/
+ADD apache-tomcat-8.5.81.tar.gz /usr/local
+
+RUN yum -y install vim
+ENV MYPATH /usr/local
+WORKDIR $MYPATH
+ENV JAVA_HOME /usr/local/jdk-18.0.2
+ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+ENV CATALINA_HOME /usr/local/apache-tomcat-8.5.81
+ENV CATALINA_BASH /usr/local/apache-tomcat-8.5.81
+ENV PATH $PATH:$JAVA_HOME/bin:$CATALINA_HOME/lib:$CATALINE_HOME/bin
+
+EXPOSE 8080
+
+CMD /usr/local/apache-tomcat-8.5.81/bin/startup.sh && tail -F /usr/local/apache-tomcat-8.5.81/bin/logs/catalina.out
+```
+
+ ```bash
+#生成镜像
+docker build -f Dockerfile -t mytomcat:v1.0 .
+#运行容器
+docker run -d -p 8080:8080 --name jekiontomcat -v /home/jekion/dockerfile/jekiontomcat/test:/usr/local/apache-tomcat-8.5.81/webapps/test -v /home/jekion/dockerfile/jekiontomcat/logs:/usr/local/apache-tomcat-8.5.81/logs mytomcat:v1.0
+ ```
+
+PS:如果遇到容器访问不了怎么办？我们可能通过以下几个步骤进行排查：
+
+```bash
+#查看容器日志
+docker logs e2ec3735866f
+#查看容器中的进程信息
+docker top 容器ID
+#查看容器端口映射
+docker port 容器ID
+#查看宿主机防火墙端口是否开启
+sudo ufw status
+
+```
+
+
+
+
+
+### 发布自己的镜像到DockerHub
+
+> 地址：http://hub.docker.com 注册自己的账号
+
+```bash
+#登入
+docker login -p 密码 -u 用户 
+#发布镜像
+#docker push 用户名/镜像名
+docker push jekion/mytomcat:v1.0
+```
+

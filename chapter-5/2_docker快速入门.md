@@ -172,11 +172,15 @@ docker logs -ft --tail 10 容器ID
    
 ```
 
-##### 查看容器中进程信息
+##### 查看容器相关信息
 
-```
+```bash
+#查看容器中的进程信息
 docker top 容器ID
-
+#查看容器端口映射
+docker port 容器ID
+#查看容器日志
+docker logs 容器ID	
 ```
 
 ##### 查看容器或镜像的详情元信息
