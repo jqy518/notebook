@@ -133,6 +133,8 @@ $ docker start 89aab435199b  #启动容器
 $ docker restart 89aab435199b  #启动容器
 $ docker stop 89aab435199b   #停止容器
 $ docker kill 89aab435199b  #强制停当前容器
+# 在容器内进行命令 (如下是执行ls)
+$ docker exec -it 1eed68b405b0 ls
 # 进入容器
 $ docker exec -it 1eed68b405b0 /bin/bash
 #进入一个正在运行的容器
