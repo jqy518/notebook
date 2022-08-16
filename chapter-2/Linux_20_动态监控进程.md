@@ -43,5 +43,13 @@
 
 
 - 【ping】测试域名及IP是或是通的。
+- 【window相关网络命令】
+  - netstat -ano
+  - netstat -ano | findstr "端口号"
+   ```bash
+    netstat -ano|findstr "8080"
+   ```
+  - tasklist|findstr "PID号"
+  - taskkill /f /t /im PID
 
    
