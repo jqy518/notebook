@@ -234,6 +234,65 @@ sudo ufw status
 
 ```
 
+### 实战vue开发环境
+
+在VUE项目中新建`Dockerfile`,`.dockerignore`文件
+
+`.dockerignore`文件用于忽略文件
+
+```bash
+#.dockerignore内容
+node_modules
+Dockerfile
+```
+
+`Dockerfile`文件内容
+
+```bash
+FROM node:latest as builder
+RUN mkdir /web
+WORKDIR /web
+COPY ./package*.json /web/
+RUN npm install
+COPY . /web/
+RUN npm run build
+
+FROM nginx:1.20
+COPY --from=builder /web/dist /usr/share/nginx/html/dist
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+
+```
+
+`nginx/default.conf` 内容：
+
+```bash
+server {
+    listen       80;
+    location / {
+        root   /usr/share/nginx/html/dist;
+        try_files $uri $uri/ @router;  # 路由重写规则
+        index  index.html index.htm;
+    }
+
+    location @router {
+        rewrite ^.*$ /index.html last;  # 路由重写规则
+    }
+    location /api/ {
+        proxy_pass http://192.168.0.24:7830/api/;  # 代理转发 
+    }
+
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+    location = /50x.html {
+        root   /usr/share/nginx/html/dist;
+    }
+}
+
+```
+
 
 
 
