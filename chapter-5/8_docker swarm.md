@@ -60,6 +60,23 @@ curl -L https://ghproxy.com/https://github.com/docker/machine/releases/download/
  docker-machine create -d virtualbox manager
 #如果提示'VBoxManage not found'
 sudo apt install virtualbox
-#
+#默认boot2docker.iso下载是从：https://github.com/boot2docker/boot2docker/releases/下载，会发现速度很慢，解决办法就是直接下载到本地，再create,比如 放到~/machine/cache/boot2docker.iso我们就可以这样创建
+docker-machine create --driver virtualbox --virtualbox-boot2docker-url ~/machine/cache/boot2docker.iso myvm1
+#进入节点
+docker-machine ssh 【主机名】
+
+#通过上面命令，我们创建四台虚拟机：
+jekion@jekion-ThinkPad-T430:~$ docker-machine ls
+NAME       ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER            ERRORS
+manager1   -        virtualbox   Running   tcp://192.168.99.100:2376           v17.11.0-ce-rc2   
+manager2   -        virtualbox   Stopped                                       Unknown           
+work1      -        virtualbox   Running   tcp://192.168.99.101:2376           v17.11.0-ce-rc2   
+work2      -        virtualbox   Stopped                                       Unknown   
+
+#如果遇到下面错误：Unable to query docker version
+work1      -        virtualbox   Running   tcp://192.168.99.101:2376           Unknown           Unable to query docker version: Get https://192.168.99.101:2376/v1.15/version: x509: certificate is valid for 192.168.99.102, not 192.168.99.101
+#可能通过：regenerate-certs为主机重新生成 TLS 信息
+docker-machine regenerate-certs work1
+#初始化集群
 ```
 
